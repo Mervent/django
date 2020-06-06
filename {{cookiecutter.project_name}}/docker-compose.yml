@@ -1,0 +1,29 @@
+version: "2"
+
+services:
+  django:
+    build: .
+    volumes:
+      - ./src:/app
+    command: ["./manage.py", "runserver", "0.0.0.0:8000"]
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_URL=postgresql://postgres:django@postgres/postgres
+      - REDIS=redis://redis:6379/10
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:12.3-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=django
+
+  redis:
+    image: redis:5-alpine
+    ports:
+      - 6379:6379

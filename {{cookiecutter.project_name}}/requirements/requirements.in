@@ -1,0 +1,13 @@
+Django>3.0
+django-behaviors
+django-environ
+psycopg2
+whitenoise
+
+environs[django]
+djangorestframework>=3.11.0
+drf-jwt
+django-filter
+
+redis
+sentry-sdk
