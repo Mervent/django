@@ -108,7 +108,7 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = env("STATIC_ROOT", cast=str, default="static")
+STATIC_ROOT = env("STATIC_ROOT", default="static")
 
 if not DEBUG:
     MIDDLEWARE += ["whitenoise.middleware.WhiteNoiseMiddleware"] + MIDDLEWARE
