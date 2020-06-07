@@ -46,6 +46,7 @@ RUN pip install --no-cache-dir -r /requirements.txt
 WORKDIR /app
 ADD src /app
 
+ENV DATABASE_URL=sqlite:///db.sqlite
 RUN ./manage.py compilemessages
 RUN ./manage.py collectstatic --noinput
 
