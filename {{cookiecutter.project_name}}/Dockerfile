@@ -26,6 +26,7 @@ RUN pip install --no-cache-dir uwsgi poetry
 WORKDIR /app
 
 ADD pyproject.toml /app
+ADD poetry.lock /app
 RUN poetry config virtualenvs.create false && poetry install --no-dev
 
 ADD ./src /app
