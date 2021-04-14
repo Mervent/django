@@ -31,7 +31,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
-    "rest_framework_jwt.blacklist",
     "app",
     "users",
 ]
@@ -90,17 +89,16 @@ USE_TZ = True
 # Django REST Framework
 # https://www.django-rest-framework.org/api-guide/settings/
 
-MAX_PAGE_SIZE = env.int("MAX_PAGE_SIZE", default=1000)
+MAX_PAGE_SIZE = 200
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
-        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
     ),
     "DEFAULT_RENDERER_CLASSES": ("app.renderers.AppJSONRenderer",),
     "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.NamespaceVersioning",
     "DEFAULT_PAGINATION_CLASS": "app.pagination.AppPagination",
-    "PAGE_SIZE": env.int("PAGE_SIZE", default=20),
+    "PAGE_SIZE": 20,
 }
 
 
