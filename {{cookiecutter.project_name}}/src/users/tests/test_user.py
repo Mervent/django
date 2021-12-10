@@ -8,7 +8,9 @@ pytestmark = [pytest.mark.django_db]
 
 
 def test_username_is_case_insensitive():
-    assert User.objects.create(username="TEST") == User.objects.get(username="TEST")
+    user = User.objects.create(username="test")
+
+    assert user == User.objects.get(username="TEST")
 
 
 def test_username_is_unique():
@@ -22,6 +24,12 @@ def test_username_is_unique():
 def test_username_should_contain_only_ascii():
     with pytest.raises(ValidationError):
         User(username="Иван").full_clean()
+
+
+def test_email_is_case_insensitive():
+    user = User.objects.create(email="test@example.com")
+
+    assert user == User.objects.get(email="TEST@EXAMPLE.COM")
 
 
 def test_email_is_unique():
