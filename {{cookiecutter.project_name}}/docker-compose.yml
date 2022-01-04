@@ -5,7 +5,7 @@ services:
     build: .
     volumes:
       - ./src:/app
-    command: ["./manage.py", "runserver", "0.0.0.0:8000"]
+    command: [ "./manage.py", "runserver", "0.0.0.0:8000" ]
     ports:
       - 8000:8000
     environment:
@@ -20,8 +20,9 @@ services:
     ports:
       - 5432:5432
     environment:
+      - POSTGRES_DATABASE=django
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=django
+      - POSTGRES_PASSWORD=postgres
 
   redis:
     image: redis:5-alpine
