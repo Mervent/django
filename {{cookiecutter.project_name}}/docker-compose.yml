@@ -9,14 +9,14 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DATABASE_URL=postgresql://postgres:django@postgres/postgres
+      - DATABASE_URL=postgresql://postgres:postgres@postgres/postgres
       - REDIS=redis://redis:6379/10
     depends_on:
       - postgres
       - redis
 
   postgres:
-    image: postgres:12.3
+    image: postgres:14
     ports:
       - 5432:5432
     environment:

@@ -14,7 +14,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env(
-    "SECRET_KEY", default=r"{{ random_ascii_string(64, punctuation=False) }}",
+    "SECRET_KEY",
+    default=r"{{ random_ascii_string(64, punctuation=False) }}",
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "app",
     "users",
+    "axes",
 ]
 
 MIDDLEWARE = [
@@ -43,10 +45,24 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "axes.middleware.AxesMiddleware",
 ]
 
 ROOT_URLCONF = "app.urls"
 AUTH_USER_MODEL = "users.User"
+
+AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+    "django.contrib.auth.hashers.ScryptPasswordHasher",
+]
 
 TEMPLATES = [
     {
@@ -121,5 +137,6 @@ if not DEBUG and env("ENABLE_SENTRY", default=False):
     from sentry_sdk.integrations.django import DjangoIntegration
 
     sentry_sdk.init(
-        dsn=env("SENTRY_DSN", default=""), integrations=[DjangoIntegration()],
+        dsn=env("SENTRY_DSN", default=""),
+        integrations=[DjangoIntegration()],
     )

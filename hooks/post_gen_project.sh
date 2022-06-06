@@ -2,7 +2,7 @@
 
 set -x
 
-virtualenv .venv
+python -m virtualenv .venv
 . .venv/bin/activate
 
 pip install --upgrade pip

@@ -1,12 +1,13 @@
-FROM python:3.7-slim-stretch
+FROM python:3.10-slim
 
 ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV STATIC_ROOT /static
 ENV DATABASE_URL=sqlite://
 
-RUN echo deb http://deb.debian.org/debian stretch contrib non-free > /etc/apt/sources.list.d/debian-contrib.list \
+RUN echo deb http://deb.debian.org/debian stable contrib non-free > /etc/apt/sources.list.d/debian-contrib.list \
     && apt-get update \
     && apt-get --no-install-recommends install -y \
       tzdata \
@@ -21,7 +22,7 @@ RUN echo deb http://deb.debian.org/debian stretch contrib non-free > /etc/apt/so
       iputils-ping \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir uwsgi poetry
+RUN pip install --no-cache-dir gunicorn poetry
 
 WORKDIR /app
 
@@ -33,4 +34,4 @@ ADD ./src /app
 
 RUN ./manage.py collectstatic --noinput
 
-CMD uwsgi --master --http :8000 --module app.wsgi --workers 2 --threads 2 --harakiri 30 --max-requests 1000 --log-x-forwarded-for
+CMD gunicorn app --worker-class thread --workers 4 --timeout 60 --bind 0.0.0.0:8000 --access-logfile - --error-logfile -
